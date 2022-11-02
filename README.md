@@ -20,11 +20,18 @@ where a1.id <> a2.id and date(a1.created_at) - date(a2.created_at) between 0 and
 ```
 
 #### Delete duplicate records.
-##### Solution 1. Delete using unique identifier
 ![](images/remove_dup.png)
+##### Solution 1. Delete using unique identifier
 ```sql
 delete from cars where Id in (
 select max(Id) from from cars group by model, brand having max(Id) > 1
+)
+```
+##### Solution 2. Using self join
+```sql
+delete from cars where Id in (
+select c2.Id from cars c1 join cars c2 on c1.model = c2.model and c1.brand = c2.brand
+where c1.Id < c2.Id
 )
 ```
 
