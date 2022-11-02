@@ -19,6 +19,13 @@ join amazon_transactions a2 on a1.user_id = a2.user_id
 where a1.id <> a2.id and date(a1.created_at) - date(a2.created_at) between 0 and 7
 ```
 
-
+#### Delete duplicate records.
+##### Solution 1. Delete using unique identifier
+![](images/remove_dup.png)
+```sql
+delete from cars where Id in (
+select max(Id) from from cars group by model, brand having max(Id) > 1
+)
+```
 
 ### SQL queries - ends
